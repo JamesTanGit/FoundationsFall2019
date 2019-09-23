@@ -51,6 +51,8 @@ template<typename T>
 int DFA<T>::input(T input)
 {
 	auto tr = make_pair(m_state, input);
+	//Without this if statement, it accepts no strings
+	//With this if statement, it accepts only the empty string
 	if (input == ' ')
 		return m_initial;
 	if (m_transitions.count(tr) > 0)
