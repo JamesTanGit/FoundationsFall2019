@@ -22,7 +22,76 @@ private:
 	map<pair<int, T>, int> m_transitions;
 };
 
+template<typename T>
+DFA<T>::DFA(int initial, bool isfinal)
+{
+	m_initial = initial;
+	m_state = initial;
+	add_state(initial, isfinal);
+	add_state(-1, false);	// State not known
+}
+
+template<typename T>
+void DFA<T>::add_state(int state, bool isfinal)
+{
+	m_states.insert(state);
+	if (isfinal)
+	{
+		m_final_states.insert(state);
+	}
+}
+
+template<typename T>
+void DFA<T>::add_transition(int src, T input, int dest)
+{
+	m_transitions.insert(pair<pair<int, T>, int> (pair<int, T>(src, input), dest));
+}
+
+template<typename T>
+int DFA<T>::input(T input)
+{
+	auto tr = make_pair(m_state, input);
+	if (input == ' ')
+		return m_initial;
+	if (m_transitions.count(tr) > 0)
+	{
+		auto it = m_transitions.find(tr);
+		return m_state = it->second;
+	}
+	else
+	{
+		return m_state = -1;
+	}
+}
+
+template<typename T>
+bool DFA<T>::is_accepting()
+{
+	return m_final_states.count(m_state) != 0;
+}
+
+template<typename T>
+int DFA<T>::state()
+{
+	return m_state;
+}
+
 int main(int argc, char* argv[])
 {
+	char input;
+	DFA<char> dfa(0, true);
+	dfa.add_state(1, false);
+	dfa.add_transition(0, 'a', 1);
+	dfa.add_transition(0, 'b', 1);
+	dfa.add_transition(1, 'a', 1);
+	dfa.add_transition(1, 'b', 1);
+	while (true)
+	{
+		cout << "State: " << dfa.state() << "  " << (dfa.is_accepting() ? "true" : "false") << endl;
+		if (cin.peek() == '\n')
+			break;
+		cin >> noskipws >> input;
+		dfa.input(input);
+	}
   return 0;
 }
