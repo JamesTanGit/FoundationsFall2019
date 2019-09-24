@@ -81,12 +81,14 @@ int DFA<T>::state()
 int main(int argc, char* argv[])
 {
 	char input;
-	DFA<char> dfa(0, true);
-	dfa.add_state(1, false);
-	dfa.add_transition(0, 'a', 1);
-	dfa.add_transition(0, 'b', 1);
-	dfa.add_transition(1, 'a', 1);
-	dfa.add_transition(1, 'b', 1);
+	char input2;
+	cout << "Give me a character so I can return a DFA that accepts only strings of exactly that character: ";
+	cin >> input2;
+	cin.ignore(256, '\n');
+	DFA<char> dfa(0, false);
+	dfa.add_state(1, true);
+	dfa.add_transition(0, input2, 1);
+	dfa.add_transition(1, input2, 1);
 	while (true)
 	{
 		cout << "State: " << dfa.state() << "  " << (dfa.is_accepting() ? "true" : "false") << endl;
