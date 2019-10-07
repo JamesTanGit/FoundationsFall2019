@@ -1,6 +1,7 @@
 #include <iostream>
 #include <set>
 #include <map>
+#include <string>
 using namespace std;
 
 template<typename T>
@@ -90,6 +91,18 @@ bool isAccepted(DFA<char> dfa, string str) {
 	}
 	else
 		return 0;
+}
+
+string returnTrace(DFA<char> dfa, string str) {
+	string trace;
+	for (int i = 0; i < str.size(); i++)
+	{
+		if (str[i] == '\n')
+			break;
+		dfa.input(str[i]);
+		trace += to_string(dfa.state());
+	}
+	return trace;
 }
 
 int main(int argc, char* argv[])
@@ -261,7 +274,8 @@ int main(int argc, char* argv[])
 	dfa12.add_transition(0, '1', 1);
 	dfa12.add_transition(1, '0', 1);
 	dfa12.add_transition(1, '1', 1);
-	cout << "Accepted? : " << isAccepted(dfa1, "james");
+	cout << returnTrace(dfa1, "james");
+	//cout << "Accepted? : " << isAccepted(dfa1, "james");
 	//while (true)
 	//{
 	//	cout << "State: " << dfa12.state() << "  " << (dfa12.is_accepting() ? "true" : "false") << endl;
