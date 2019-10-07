@@ -78,6 +78,20 @@ int DFA<T>::state()
 	return m_state;
 }
 
+bool isAccepted(DFA<char> dfa, string str) {
+	for(int i = 0; i < str.size(); i++)
+	{
+		if (str[i] == '\n')
+			break;
+		dfa.input(str[i]);
+	}
+	if (dfa.is_accepting() == true) {
+		return 1;
+	}
+	else
+		return 0;
+}
+
 int main(int argc, char* argv[])
 {
 	char input;
@@ -247,13 +261,14 @@ int main(int argc, char* argv[])
 	dfa12.add_transition(0, '1', 1);
 	dfa12.add_transition(1, '0', 1);
 	dfa12.add_transition(1, '1', 1);
-	while (true)
-	{
-		cout << "State: " << dfa12.state() << "  " << (dfa12.is_accepting() ? "true" : "false") << endl;
-		if (cin.peek() == '\n')
-			break;
-		cin >> noskipws >> input;
-		dfa12.input(input);
-	}
+	cout << "Accepted? : " << isAccepted(dfa1, "james");
+	//while (true)
+	//{
+	//	cout << "State: " << dfa12.state() << "  " << (dfa12.is_accepting() ? "true" : "false") << endl;
+	//	if (cin.peek() == '\n')
+	//		break;
+	//	cin >> noskipws >> input;
+	//	dfa12.input(input);
+	//}
   	return 0;
 }
